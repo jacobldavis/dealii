@@ -15,9 +15,7 @@ set(TARGET "step-104")
 # or switch altogether to the large project CMakeLists.txt file discussed
 # in the "CMake in user projects" page accessible from the "User info"
 # page of the documentation.
-set(TARGET_SRC
-  ${TARGET}.cc
-  )
+set(TARGET_SRC ${TARGET}.cc instantiations.cc)
 
 # Usually, you will not need to modify anything beyond this point...
 
@@ -55,3 +53,17 @@ endif()
 deal_ii_initialize_cached_variables()
 project(${TARGET})
 deal_ii_invoke_autopilot()
+
+# Precision variant, selected at configure time:
+#   cmake -DSTEP104_PRECISION=DOUBLE|SINGLE|MIXED ...
+#
+# This must go through target_compile_definitions. Passing -DCMAKE_CXX_FLAGS
+# does not work: deal_ii_initialize_cached_variables() above overwrites
+# CMAKE_CXX_FLAGS with deal.II's own flags, the define disappears, and every
+# build silently comes out as the #else branch in main().
+if(DEFINED STEP104_PRECISION)
+  target_compile_definitions(${TARGET} PRIVATE STEP104_${STEP104_PRECISION})
+  message(STATUS "step-104 precision variant: ${STEP104_PRECISION}")
+else()
+  message(STATUS "step-104 precision variant: DOUBLE (default)")
+endif()
