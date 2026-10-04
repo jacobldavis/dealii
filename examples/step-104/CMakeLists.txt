@@ -55,3 +55,13 @@ endif()
 deal_ii_initialize_cached_variables()
 project(${TARGET})
 deal_ii_invoke_autopilot()
+
+# Precision variant, selected at configure time:
+#   cmake -DSTEP104_PRECISION=DOUBLE|SINGLE|MIXED ...
+if(DEFINED STEP104_PRECISION)
+  target_compile_definitions(${TARGET} PRIVATE STEP104_${STEP104_PRECISION})
+  message(STATUS "step-104 precision variant: ${STEP104_PRECISION}")
+else()
+  message(STATUS "step-104 precision variant: DOUBLE (default)")
+endif()
+
