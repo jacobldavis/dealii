@@ -1336,7 +1336,7 @@ namespace Step104
           << "dim: " << dim << '\n'
           << "Element: Q" << degree_u << "-Q" << degree_p << std::endl;
 
-    unsigned int n_refinements = 6;
+    unsigned int n_refinements = 10;
 
     for (unsigned int i = 0; i < n_refinements; ++i)
       {
@@ -1386,4 +1386,3 @@ int main(int argc, char **argv)
 
   problem.run();
 }
-
